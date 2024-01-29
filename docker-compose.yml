@@ -1,0 +1,31 @@
+services:
+  rt5:
+    image: "tomboone/rt5-apache-amd64:latest"
+    container_name: rt5
+    restart: always
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - "./RT_SiteConfig.pm:/opt/rt5/etc/RT_SiteConfig.pm"
+      - "./ssl:/etc/ssl"
+      - "./sites-available:/etc/apache2/sites-available"
+    command: apachectl -D FOREGROUND
+
+  mariadb:
+    image: "tomboone/rt5-mariadb-amd64:latest"
+    container_name: mariadb
+    restart: always
+    ports:
+      - "8306:3306"
+    volumes:
+        - "rt5-mariadb-data:/var/lib/mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=rt5
+      - MYSQL_DATABASE=rt5
+      - MYSQL_USER=rt5
+      - MYSQL_PASSWORD=rt5
+      - ALLOW_EMPTY_PASSWORD=yes
+
+volumes:
+    rt5-mariadb-data:
