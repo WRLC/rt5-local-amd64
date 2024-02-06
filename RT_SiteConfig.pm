@@ -3,10 +3,10 @@
 
 # rtname appears in ticket email subjects. It needs to be globally unique,
 # so use your organization's domain name.
-Set($rtname, 'Service Desk');
+Set($rtname, 'rt5.local.docker');
 # Organization is used in the database for ticket links, etc. It also needs to
 # be globally unique, so use your organization's domain name.
-Set($Organization, 'WRLC');
+Set($Organization, 'rt5.local.docker');
 # WebDomain is domain name of the RT web server. RT uses it to construct links
 # and defend against CSRFs.
 Set($WebDomain, 'rt5.local.docker');
@@ -59,6 +59,13 @@ Set($LogToSTDERR, 'warning');
 Set($LogToFile,      'debug');
 Set($LogToFileNamed, 'rt.log');
 Set($LogDir,         '/opt/rt5/var/log');
+
+Set( %FullTextSearch,
+    Enable     => 1,
+    Indexed    => 1,
+    # Additional output from rt-setup-fulltext-index should be here.
+    # The configuration varies by database type.
+);
 
 # Perl expects to find this 1 at the end of the file.
 1;
