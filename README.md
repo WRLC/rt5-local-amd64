@@ -22,6 +22,9 @@ of RT5. As a result, there's no need to run `make initialize-database` or
 The only manual tasks required are to create a self-signed SSL certificate and
 to edit your /etc/hosts file.
 
+Due to our own internal conflicts, ports 80 and 443 in the rt5 container are
+mapped to 8080 and 8443 on the host.
+
 ## Usage
 
 1. Clone this repository: \
@@ -36,6 +39,6 @@ to edit your /etc/hosts file.
 `127.0.0.1 rt5.local.docker`
 6. Start the container: \
 `docker-compose up -d`
-7. Access RT5 in your browser (https://rt5.local.docker): \
+7. Access RT5 in your browser (https://rt5.local.docker:8443): \
 Username: `root` \
 Password: `password`
