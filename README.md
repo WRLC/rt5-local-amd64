@@ -36,7 +36,6 @@ to edit your /etc/hosts file.
 `127.0.0.1 rt5.local.docker`
 6. Start the container: \
 `docker-compose up -d`
-7. Access RT5 in your browser: \
-`https://rt5.local.docker` \
+7. Access RT5 in your browser (https://rt5.local.docker): \
 Username: `root` \
 Password: `password`
