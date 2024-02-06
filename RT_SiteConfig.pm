@@ -9,15 +9,13 @@ Set($rtname, 'Service Desk');
 Set($Organization, 'WRLC');
 # WebDomain is domain name of the RT web server. RT uses it to construct links
 # and defend against CSRFs.
-Set($WebDomain, 'rt5-apache-docker');
+Set($WebDomain, 'rt5.local.docker');
 # WebPort is the port where the RT web server runs. Edit the number below if
 # you're not using the standard HTTPS port.
-Set($WebPort, '8443');
+Set($WebPort, '443');
 # WebPath is the path where the RT web server runs on your WebDomain.
 # Edit the path below only if you're using a specific path like example.com/rt
 Set($WebPath, '');
-
-Plugin('RT::Extension::MergeUsers');
 
 # DatabaseUser is the name of the database account RT uses to read and store
 # data. 'rt_user' is the default but you can change it if you like.
@@ -58,17 +56,9 @@ Set($LogToSyslog, 'warning');
 # which should be set up with logrotate automatically.
 Set($LogToSTDERR, 'warning');
 
-# Turn off optional features that require additional configuration.
-# If you want to use these, refer to the RT_Config documentation for
-# instructions on how to set them up.
-Set(%GnuPG, 'Enable' => '0');
-Set(%SMIME, 'Enable' => '0');
-
-Set( %FullTextSearch,
-    Enable     => 1,
-    Indexed    => 1,
-    Table      => 'AttachmentsIndex',
-);
+Set($LogToFile,      'debug');
+Set($LogToFileNamed, 'rt.log');
+Set($LogDir,         '/opt/rt5/var/log');
 
 # Perl expects to find this 1 at the end of the file.
 1;
