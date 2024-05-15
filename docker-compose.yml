@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   rt5:
     build: .
@@ -8,13 +6,17 @@ services:
     volumes:
       - ./RT_SiteConfig.pm:/opt/rt5/etc/RT_SiteConfig.pm
       - ./sites-available:/etc/apache2/sites-available:ro
-      - ./ssl/mycert.crt:/etc/ssl/certs/mycert.crt:ro
-      - ./ssl/mycert.key:/etc/ssl/private/mycert.key:ro
+      - ./html:/var/www/html:ro
+      - ./Web.pm:/opt/rt5/local/lib/RT/Interface/Web.pm
     depends_on:
       - mariadb
-    ports:
-      - "8080:80"
-      - "8443:443"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rt5.rule=Host(`rt5.wrlc.localhost`)"
+      - "traefik.http.routers.rt5.entrypoints=websecure"
+      - "traefik.http.routers.rt5.tls=true"
+    networks:
+      - proxy
 
   mariadb:
     image: mariadb:latest
@@ -22,13 +24,19 @@ services:
     ports:
       - "8306:3306"
     environment:
-        MARIADB_ROOT_PASSWORD: rt5
-        MYSQL_DATABASE: rt5
-        MYSQL_USER: rt5
-        MYSQL_PASSWORD: rt5
+      MARIADB_ROOT_PASSWORD: rt5
+      MYSQL_DATABASE: rt5
+      MYSQL_USER: rt5
+      MYSQL_PASSWORD: rt5
     volumes:
       - ./rt5.sql:/docker-entrypoint-initdb.d/rt5.sql
       - rt5-mariadb-data:/var/lib/mysql
+    networks:
+      - proxy
 
 volumes:
-    rt5-mariadb-data:
+  rt5-mariadb-data:
+
+networks:
+  proxy:
+    external: true

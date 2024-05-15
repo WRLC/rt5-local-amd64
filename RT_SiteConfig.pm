@@ -3,19 +3,19 @@
 
 # rtname appears in ticket email subjects. It needs to be globally unique,
 # so use your organization's domain name.
-Set($rtname, 'rt5.local.docker');
+Set($rtname, 'rt5.wrlc.localhost');
 # Organization is used in the database for ticket links, etc. It also needs to
 # be globally unique, so use your organization's domain name.
-Set($Organization, 'rt5.local.docker');
+Set($Organization, 'rt5.wrlc.localhost');
 # WebDomain is domain name of the RT web server. RT uses it to construct links
 # and defend against CSRFs.
-Set($WebDomain, 'rt5.local.docker');
+Set($WebDomain, 'rt5.wrlc.localhost');
 # WebPort is the port where the RT web server runs. Edit the number below if
 # you're not using the standard HTTPS port.
-Set($WebPort, '443');
+Set($WebPort, '80');
 # WebPath is the path where the RT web server runs on your WebDomain.
 # Edit the path below only if you're using a specific path like example.com/rt
-Set($WebPath, '');
+Set($WebPath, '/rt');
 
 # DatabaseUser is the name of the database account RT uses to read and store
 # data. 'rt_user' is the default but you can change it if you like.
@@ -66,6 +66,10 @@ Set( %FullTextSearch,
     # Additional output from rt-setup-fulltext-index should be here.
     # The configuration varies by database type.
 );
+
+Set( $WebRemoteUserAuth, 1 );
+Set( $WebRemoteUserAutocreate, 1 );
+Set( $WebFallbackToRTLogin, 0 );
 
 # Perl expects to find this 1 at the end of the file.
 1;
