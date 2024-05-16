@@ -7,7 +7,7 @@ RUN apt update \
 # Install Perl and other dependencies
 RUN apt update \
     && apt -y install autoconf build-essential cpanminus curl libexpat-dev libgd-dev libssl-dev libz-dev gnupg \
-    graphviz multiwatch openssl perl w3m
+    graphviz multiwatch openssl perl w3m libmemcached-dev apache2-dev
 
 # Install MariaDB libraries
 RUN apt update \
@@ -31,12 +31,25 @@ RUN apt update \
     libtext-wikiformat-perl libtext-worddiff-perl libtext-wrapper-perl libtime-parsedate-perl libtree-simple-perl \
     libweb-machine-perl libxml-rss-perl libnet-ldap-perl libgd-graph-perl libgd-text-perl libfile-which-perl \
     libgnupg-interface-perl libperlio-eol-perl libdbd-mysql-perl libgraphviz2-perl libcrypt-x509-perl
+
+# Install PHP
+RUN apt update \
+    && apt -y install php libapache2-mod-php
+
 # Set up Apache
 RUN a2dismod mpm_event \
     && a2dismod mpm_worker \
-    && a2enmod mpm_prefork \
-    && a2enmod ssl \
-    && a2ensite default-ssl
+    && a2enmod mpm_prefork
+
+# Add authmemcookie module
+ADD https://github.com/ZenProjects/Apache-Authmemcookie-Module/archive/refs/tags/v2.0.1.tar.gz /tmp/v2.0.1.tar.gz
+RUN tar -xzf /tmp/v2.0.1.tar.gz -C /tmp \
+    && cd /tmp/Apache-Authmemcookie-Module-2.0.1 \
+    && ./configure --with-apxs=/usr/bin/apxs --with-libmemcached=/usr \
+    && make \
+    && make install \
+    && echo "LoadModule mod_auth_memcookie_module /usr/lib/apache2/modules/mod_auth_memcookie.so" > /etc/apache2/mods-available/mod_auth_memcookie.load \
+    && a2enmod mod_auth_memcookie
 
 # Set up RT user
 RUN groupadd --system rt \
@@ -48,11 +61,13 @@ RUN cd /tmp \
     && tar -xzf /tmp/rt-5.0.5.tar.gz -C /tmp \
     && cd /tmp/rt-5.0.5 \
     && PERL="/usr/bin/env -S perl -I/opt/rt5/local/lib/perl5" ./configure --prefix=/opt/rt5 --with-db-type=mysql  \
-    --with-web-user=www-data --with-web-group=www-data --with-attachment-store=disk --enable-externalauth --enable-gd  \
-    --enable-graphviz --enable-gpg --enable-smime \
+    --with-db-host=rt5_db --with-web-user=www-data --with-web-group=www-data --with-attachment-store=disk  \
+    --enable-externalauth --enable-gd  --enable-graphviz --enable-gpg --enable-smime \
     && make dirs \
     && make install \
     && chown -R www-data:www-data /opt/rt5
+
+EXPOSE 80
 
 # Start Apache
 CMD apachectl -D FOREGROUND
