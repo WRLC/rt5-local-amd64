@@ -20,12 +20,12 @@ Set($WebPath, '/rt');
 # DatabaseUser is the name of the database account RT uses to read and store
 # data. 'rt_user' is the default but you can change it if you like.
 # DO NOT use the 'rt_admin' superuser created in the instructions above.
-Set($DatabaseUser, 'rt5');
+Set($DatabaseUser, 'rt_user');
 # DatabasePassword is the password for DatabaseUser.
-Set($DatabasePassword, 'rt5');
+Set($DatabasePassword, 'rt_pass');
 # DatabaseHost is the hostname of the database server RT should use.
 # Change 'localhost' if it lives on a different server.
-Set($DatabaseHost, 'mariadb');
+Set($DatabaseHost, 'rt5_mariadb');
 # DatabasePort is the port number of the database server RT should use.
 # `undef` means the default for that database. Change it if you're not
 # using the standard port.
@@ -36,7 +36,7 @@ Set($DatabaseName, 'rt5');
 # DatabaseAdmin is the name of the user in the database used to perform
 # major administrative tasks. Change 'rt_admin' if you're using a user
 # besides the one created in this guide.
-Set($DatabaseAdmin, 'rt5');
+Set($DatabaseAdmin, 'rt_user');
 
 # RT can log to syslog, stderr, and/or a dedicated file.
 # Log settings are used both by the primary server and by command line

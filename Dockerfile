@@ -61,8 +61,8 @@ RUN cd /tmp \
     && tar -xzf /tmp/rt-5.0.5.tar.gz -C /tmp \
     && cd /tmp/rt-5.0.5 \
     && PERL="/usr/bin/env -S perl -I/opt/rt5/local/lib/perl5" ./configure --prefix=/opt/rt5 --with-db-type=mysql  \
-    --with-web-user=www-data --with-web-group=www-data --with-attachment-store=disk --enable-externalauth --enable-gd  \
-    --enable-graphviz --enable-gpg --enable-smime \
+    --with-web-user=www-data --with-web-group=www-data --with-attachment-store=disk --enable-externalauth  \
+    --enable-gd --enable-graphviz --enable-gpg --enable-smime \
     && make dirs \
     && make install \
     && mkdir -p /opt/rt5/var/data/RT-Shredder \
