@@ -7,7 +7,7 @@ RUN apt update \
 # Install Perl and other dependencies
 RUN apt update \
     && apt -y install autoconf build-essential cpanminus curl libexpat-dev libgd-dev libssl-dev libz-dev gnupg \
-    graphviz multiwatch openssl perl w3m libmemcached-dev
+    graphviz multiwatch openssl perl w3m libmemcached-dev apache2-dev
 
 # Install MariaDB libraries
 RUN apt update \

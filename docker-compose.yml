@@ -20,9 +20,7 @@ services:
 
   rt5_mariadb:
     image: mariadb:latest
-    container_name: mariadb
-    ports:
-      - "8306:3306"
+    container_name: rt5_db
     environment:
       MARIADB_ROOT_PASSWORD: rt5
       MYSQL_DATABASE: rt5
