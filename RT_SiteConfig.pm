@@ -70,6 +70,7 @@ Set( %FullTextSearch,
 Set( $WebRemoteUserAuth, 1 );
 Set( $WebRemoteUserAutocreate, 1 );
 Set( $WebFallbackToRTLogin, 0 );
+Set( $LogoutURL, 'https://simplesamlphp.wrlc.localhost/simplesaml/wrlcauth/logout.php?service=service_desk' );
 
 # Perl expects to find this 1 at the end of the file.
 1;
